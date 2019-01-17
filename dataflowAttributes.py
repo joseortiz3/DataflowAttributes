@@ -147,59 +147,16 @@ class DeterminantAttr(DependentAttr):
                                         name=name, verbose=verbose)
 
 if __name__ == '__main__':
-    # Testing
+    # Example of functionality
 
-    class DataflowSuccess():
-    
-        # The following defines the directed acyclic computation graph for these attributes.
-        a1 = IndependentAttr(1, 'a1')
-        a2 = DeterminantAttr(['a1'], 'update_a2', 'a2')
-        a3 = DeterminantAttr(['a2'], 'update_a3', 'a3')
-        a4 = DeterminantAttr(['a1','a2'], 'update_a4', 'a4')
-        a5 = DeterminantAttr(['a1','a2','a3','a6'], 'update_a5', 'a5')
-        a6 = IndependentAttr(6, 'a6')
-        a7 = DeterminantAttr(['a4','a5'], 'update_a7', 'a7')
-
-        def __init__(self):
-            pass
-
-        def update_a2(self):
-            time.sleep(0.25)
-            self.a2 = '('+str(self.a1)+'+2'+')'
-            print('a2 updated to '+ self.a2)
-
-        def update_a3(self):
-            time.sleep(0.25)
-            self.a3 = '('+ self.a2 + '+3)'
-            print('a3 updated to '+self.a3)
-
-        def update_a4(self):
-            time.sleep(0.25)
-            self.a4 = '(' + str(self.a1) + '*' + self.a2 + '+4)'
-            print('a4 updated to '+self.a4)
-
-        def update_a5(self):
-            time.sleep(0.25)
-            self.a5 = '(' + str(self.a1) + '+' + self.a2 + '+' + self.a3 + '*' + str(self.a6) + '+5)'
-            print('a5 updated to '+self.a5)
-
-        def update_a7(self):
-            time.sleep(0.25)
-            self.a7 = '(' + self.a4 + '*' + self.a5 + '+7)'
-            print('a7 updated to '+self.a7)
-            answer = eval(self.a7)
-            target = eval('((a1*(a1+2)+4)*(a1+(a1+2)+((a1+2)+3)*a6+5)+7)'.replace('a6',str(self.a6)).replace('a1',str(self.a1)))
-            print('Expression equals '+str(answer)+' vs expected '+str(target))
-            if answer == target: print('SUCCESS!')
-            else: print('Failure.')
-
+    # Define a class with interdependent attributes and the functions that update them.
     class DataflowFail():
-    
+        
+        # Independent attributes
         a1 = 1
         a6 = 6
 
-        def __init__(self):
-            pass
+        # Define the functions responsible for updating the dependent attributes
 
         def full_update(self):
             self.update_a2()
@@ -238,6 +195,22 @@ if __name__ == '__main__':
             if answer == target: print('SUCCESS!')
             else: print('Failure.')
 
+    # Now correct the dependency problems in the class by creating a new class.
+    class DataflowSuccess(DataflowFail):
+        # This class corrects the dependency problems in the DataflowFail class by using the following descriptors:
+        # The following defines the directed acyclic computation graph for these attributes.
+        a1 = IndependentAttr(1, 'a1')
+        a2 = DeterminantAttr(['a1'], 'update_a2', 'a2')
+        a3 = DeterminantAttr(['a2'], 'update_a3', 'a3')
+        a4 = DeterminantAttr(['a1','a2'], 'update_a4', 'a4')
+        a5 = DeterminantAttr(['a1','a2','a3','a6'], 'update_a5', 'a5')
+        a6 = IndependentAttr(6, 'a6')
+        a7 = DeterminantAttr(['a4','a5'], 'update_a7', 'a7')
+
+        # Inherets the rest of DataflowFail, including its updating functions for the dependent attributes.
+
+
+    # Execute the test.
     print('------------- Testing the bad way of updating dependent attributes ------------')
     # Demonstrate no handling of data flow.
     program_bad = DataflowFail()
