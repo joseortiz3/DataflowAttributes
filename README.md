@@ -1,5 +1,5 @@
 # DataflowAttributes
-This is minimalistic, pure-python library for efficiently handling acyclic dependencies in your Python class attributes.
+This is minimalistic, pure-python module for efficiently handling acyclic dependencies in your Python class attributes.
 
 For instance, consider a class that has attributes a1 through a7, with a dependency structure shown below:
 
@@ -7,9 +7,9 @@ For instance, consider a class that has attributes a1 through a7, with a depende
 
 The example provided considers changing the independent attributes a1 and a6, and calculating the affects they have on their dependent attributes.
 
-Rather than updating every attribute when any change is made, this library automatically updates only the required attributes, and only when the value of an attribute is actually requested.
+Rather than updating every attribute when any change is made, this module automatically updates only the required attributes, and only when the value of an attribute is actually requested.
 
-The library is very simple to use. When you are defining your class attributes, simply define their dependency structure using the library's descriptor classes. 
+The module is very simple to use. When you are defining your class attributes, simply define their dependency structure using the module's descriptor classes. 
 
 You can use the main descriptor class for a uniform-looking syntax:
 
@@ -46,7 +46,7 @@ Similarly, you can use its subclasses for a more explicit syntax:
         a6 = IndependentAttr(6, 'a6')
         a7 = DeterminantAttr(['a4','a5'], 'update_a7', 'a7')
  ```
- The library takes care of the rest. Running the example shows how this works. Attributes 1, 2, etc. in the diagram correspond to `a1`, `a2`, etc. in the example code:
+The module takes care of the rest (setting values, getting values, and updating values). Running the example (execute the module) shows how this works. Give it a try! Attributes 1, 2, etc. in the diagram correspond to `a1`, `a2`, etc. in the example code:
  
  ```
    ------------- Testing the bad way of updating dependent attributes ------------
