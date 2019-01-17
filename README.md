@@ -3,7 +3,7 @@ This is minimalistic, pure-python module for efficiently handling acyclic depend
 
 For instance, consider a class that has attributes a1 through a7, with a dependency structure shown below:
 
-![Graph of Example](DataflowExample.png)
+![Graph of Example](acyclic_dependency_example_pic.png)
 
 The example provided considers changing the independent attributes a1 and a6, and calculating the affects they have on their dependent attributes.
 
