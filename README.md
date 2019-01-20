@@ -1,5 +1,7 @@
 # DataflowAttributes
-This is minimalistic, pure-python module for efficiently handling acyclic dependencies in your Python class attributes.
+This is minimalistic, pure-python module for efficiently handling "acyclic dependencies" in your Python class attributes.
+
+In other words, this module takes care of updating attributes that depend on other attributes, no matter how complicated the dependency.
 
 For instance, consider a class that has attributes a1 through a7, with a dependency structure shown below:
 
