@@ -16,41 +16,18 @@ Changing the independent attributes 1 or 6 (`a1` and `a6` in the example code) w
 Rather than updating every attribute when any change is made, this module automatically updates only the required attributes, and only when the value of an attribute is actually requested.
 
 The module is very simple to use. When you are defining your class attributes, simply define their dependency structure using the module's descriptor classes. 
-
-You can use the main descriptor class for a uniform-looking syntax:
-
-```python
-  class DataflowSuccess():
-
-        # The following defines the directed acyclic computation graph for these attributes.
-        a1 = DependentAttr(1, [], None, 'a1')
-        a2 = DependentAttr(None, ['a1'], 'update_a2', 'a2')
-        a3 = DependentAttr(None, ['a2'], 'update_a3', 'a3')
-        a4 = DependentAttr(None, ['a1','a2'], 'update_a4', 'a4')
-        a5 = DependentAttr(None, ['a1','a2','a3','a6'], 'update_a5', 'a5')
-        a6 = DependentAttr(6, [], None, 'a6')
-        a7 = DependentAttr(None, ['a4','a5'], 'update_a7', 'a7')
-
-        # ...... define the update functions update_a2, update_a3 etc
-        def update_a2():
-            ....
- ```
- 
- The arguments supplied above to `DependentAttr` are the initial value of the attribute, the names of the attributes that attribute depends on, the name of the member function responsible for updating its value, and its attribute name.
- 
-Similarly, you can use its subclasses for a more explicit syntax:
  
  ```python
      class DataflowSuccess():
     
         # The following defines the directed acyclic computation graph for these attributes.
-        a1 = IndependentAttr(1, 'a1')
-        a2 = DeterminantAttr(['a1'], 'update_a2', 'a2')
-        a3 = DeterminantAttr(['a2'], 'update_a3', 'a3')
-        a4 = DeterminantAttr(['a1','a2'], 'update_a4', 'a4')
-        a5 = DeterminantAttr(['a1','a2','a3','a6'], 'update_a5', 'a5')
-        a6 = IndependentAttr(6, 'a6')
-        a7 = DeterminantAttr(['a4','a5'], 'update_a7', 'a7')
+        a1 = IndependentAttr(init_value = 1, name = 'a1')
+        a2 = DeterminantAttr(dependencies = ['a1'], calc_func = 'update_a2', name = 'a2')
+        a3 = DeterminantAttr(dependencies = ['a2'], calc_func = 'update_a3', name = 'a3')
+        a4 = DeterminantAttr(dependencies = ['a1','a2'], calc_func = 'update_a4', name = 'a4')
+        a5 = DeterminantAttr(dependencies = ['a1','a2','a3','a6'], calc_func = 'update_a5', name = 'a5')
+        a6 = IndependentAttr(init_value = 6, name = 'a6')
+        a7 = DeterminantAttr(dependencies = ['a4','a5'], calc_func = 'update_a7', name = 'a7')
  ```
 The module takes care of the rest (setting values, getting values, and updating values). Running the example (execute the module) shows how this works. Give it a try! Attributes 1, 2, etc. in the diagram correspond to `a1`, `a2`, etc. in the example code:
  
