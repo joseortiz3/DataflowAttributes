@@ -63,15 +63,15 @@ class DependentAttr(object):
         self.children = []
         self.verbose = verbose
         if self.verbose:
-           print('%s INIT: \t init_value: %s \t dependencies: %s \t calc_func: %s',
+           print('%s INIT: \t init_value: %s \t dependencies: %s \t calc_func: %s' %
                  (self.name, self.value, self.dependencies, self.calc_func))
 
     def __get__(self, obj, objtype):
-        if self.verbose:
-            print('%s GET: \t obj: %s \t objtype: %s' % (self.name, obj, objtype))
         # This defines the behavior when using type(parent_object).attr
         if obj is None:
             return self
+        if self.verbose:
+            print('%s GET: \t obj: %s \t objtype: %s' % (self.name, obj, objtype))
         # None indicates the value must be recalculated.
         if self.value is AttrNullState:
             # Trigger the calculation of any attributes this one depends upon.
@@ -92,8 +92,15 @@ class DependentAttr(object):
                     if isinstance(getattr(type(obj), dependency, None), DependentAttr):
                         raise ValueError('Attribute %s requires %s but value was None'%(self.name, dependency))
             # Execute function that re-calculates the value now all dependencies are ready.
-            if self.calc_func is not None: getattr(obj, self.calc_func)()
+            if self.calc_func is not None:
+                update_func = getattr(obj, self.calc_func, None)
+                if update_func is not None: 
+                    if self.verbose: print('\tAttribute %s calling %s'%(self.name,self.calc_func))
+                    update_func()
+                else: raise ValueError('Attribute %s cannot find method %s in object %s' % (self.name, self.calc_func, obj))
         # By now, __set__ should have been called and has set the value.
+        if self.value is AttrNullState: raise ValueError('Attribute %s calling %s did not result in an updated value.' 
+                                                         % (self.name, self.calc_func))
         return self.value
 
     def __set__(self, obj, value):
