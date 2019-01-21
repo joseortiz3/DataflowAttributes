@@ -1,7 +1,11 @@
 # DataflowAttributes
 This is minimalistic, pure-python module for efficiently handling "acyclic dependencies" in your Python class attributes.
 
-In other words, this module takes care of updating attributes that depend on other attributes, no matter how complicated the dependency.
+In other words, this module takes care of automatically and efficiently updating attributes that depend on other attributes, no matter how complicated the dependency graph. 
+
+A typical use-case is hyperparameter optimization: A class could represent a system you are trying to optimize, and its independent attributes (controls, or hyperparameters) are things you control about the system. Dependent (determinant) attributes are then affected by these controls. The goal is to find the "best" controls/hyperparameters by changing them and seeing how they affect the dependent values. Changing one control might cause every dependent attribute of the system to change, while another control might only effect a few dependent attributes. Thus it is possible to avoid unncessary calculation if you know which attributes affect which other attributes.
+
+This module does exactly that by modifying the way python class attributes work by using the python [descriptor protocol](https://docs.python.org/3/howto/descriptor.html). Here, class attributes know which attributes they depend on, which attributes they affect, and how to update their own value. Setting/modifying the value of an attribute results in a cascade of messages informing dependent attributes they need to be recalculated in the future. This recalculation occurs only when actually using/getting the value of an attribute that needs to be recalculated.
 
 For instance, consider a class that has attributes a1 through a7, with a dependency structure shown below:
 
