@@ -77,7 +77,8 @@ class DependentAttr(object):
             # Trigger the calculation of any attributes this one depends upon.
             for dependency in self.dependencies:
                 if not hasattr(obj, dependency):
-                    raise ValueError('Attribute %s is a dependency of %s but is not an attribute of %s'%(dependency, self.name, obj))
+                    raise ValueError('Attribute %s is a dependency of %s but is not an attribute of %s'
+                                     % (dependency, self.name, obj))
                 # Get the dependency's descriptor via the defined type(obj).attr
                 parent = getattr(type(obj), dependency, None)
                 # If this descriptor doesn't know this is a child, inform it.
@@ -90,16 +91,20 @@ class DependentAttr(object):
                 # Throw an error if the update was not successful and it should have been.
                 if attr_value is AttrNullState:
                     if isinstance(getattr(type(obj), dependency, None), DependentAttr):
-                        raise ValueError('Attribute %s requires %s but value was None'%(self.name, dependency))
+                        raise ValueError('Attribute %s requires %s but value was None' 
+                                         % (self.name, dependency))
             # Execute function that re-calculates the value now all dependencies are ready.
             if self.calc_func is not None:
                 update_func = getattr(obj, self.calc_func, None)
                 if update_func is not None: 
-                    if self.verbose: print('\tAttribute %s calling %s'%(self.name,self.calc_func))
+                    if self.verbose: print('\tAttribute %s calling %s' 
+                                           % (self.name,self.calc_func))
                     update_func()
-                else: raise ValueError('Attribute %s cannot find method %s in object %s' % (self.name, self.calc_func, obj))
+                else: raise ValueError('Attribute %s cannot find method %s in object %s' 
+                                       % (self.name, self.calc_func, obj))
         # By now, __set__ should have been called and has set the value.
-        if self.value is AttrNullState: raise ValueError('Attribute %s calling %s did not result in an updated value.' 
+        if self.value is AttrNullState: 
+            raise ValueError('Attribute %s calling %s did not result in an updated value.' 
                                                          % (self.name, self.calc_func))
         return self.value
 
