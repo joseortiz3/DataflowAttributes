@@ -1,5 +1,3 @@
-import time
-
 class AttrNullState(object):
     """
     This is just a special "attribute value is invalid" placeholder.
@@ -159,6 +157,8 @@ class DeterminantAttr(DependentAttr):
                                         name=name, verbose=verbose)
 
 if __name__ == '__main__':
+    import time
+
     # Example of functionality
 
     # Define a class with interdependent attributes and the functions that update them.
