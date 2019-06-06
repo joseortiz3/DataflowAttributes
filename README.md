@@ -30,7 +30,7 @@ The module is very simple to use. When you are defining your class attributes, s
         a7 = DeterminantAttr(dependencies = ['a4','a5'], calc_func = 'update_a7', name = 'a7')
         
         # Now define the functions to update the attribute values.
-        def update_a2(self, ....)
+        def update_a2(self, ....):
             ....
         # etc.
  ```
