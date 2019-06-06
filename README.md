@@ -98,3 +98,4 @@ The module takes care of the rest (setting values, getting values, and updating 
   SUCCESS!
   Attribute a7 is ((9*(9+2)+4)*(9+(9+2)+((9+2)+3)*4+5)+7)
   ```
+Next I would like to make this into a `pip`-installable package. Please let me know if you have any experience with this and would like to help.
