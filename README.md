@@ -34,68 +34,8 @@ The module is very simple to use. When you are defining your class attributes, s
             ....
         # etc.
  ```
-The module takes care of the rest (setting values, getting values, and updating values). Running the example (execute the module) shows how this works. Give it a try! Attributes 1, 2, etc. in the diagram correspond to `a1`, `a2`, etc. in the example code:
- 
- ```
-   ------------- Testing the bad way of updating dependent attributes ------------
-  a2 updated to (1+2)
-  a3 updated to ((1+2)+3)
-  a4 updated to (1*(1+2)+4)
-  a5 updated to (1+(1+2)+((1+2)+3)*6+5)
-  a7 updated to ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
-  Expression equals 322 vs expected 322
-  SUCCESS!
-  Attribute a7 is ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
+The module takes care of the rest (setting values, getting values, and updating values).
 
-  Changing a6 to 4 affects a5 and therefore a7.
-  However, after changing a6, attribute a7 is still ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
+Example code is provided based on the above dependency graph. Attributes 1, 2, etc. in the diagram correspond to `a1`, `a2`, etc. in the example code. Give it a try!
 
-  Updating the value of a7 doesn't work without updating at least a5 first:
-  a7 updated to ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
-  Expression equals 322 vs expected 238
-  Failure.
-  Attribute a7 is ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
-
-  Only a costly full update guarantees in all scenarios the correct value of a7:
-  a2 updated to (1+2)
-  a3 updated to ((1+2)+3)
-  a4 updated to (1*(1+2)+4)
-  a5 updated to (1+(1+2)+((1+2)+3)*4+5)
-  a7 updated to ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*4+5)+7)
-  Expression equals 238 vs expected 238
-  SUCCESS!
-  Attribute a7 is ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*4+5)+7)
-
-
-  --------------- Testing the good way using explicitly-dependent attributes -------------
-  a2 updated to (1+2)
-  a4 updated to (1*(1+2)+4)
-  a3 updated to ((1+2)+3)
-  a5 updated to (1+(1+2)+((1+2)+3)*6+5)
-  a7 updated to ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
-  Expression equals 322 vs expected 322
-  SUCCESS!
-  Attribute a7 is ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*6+5)+7)
-
-  Changing a6 to 4 affects the value of a5 and therefore a7.
-  Getting the value of a7 auto-triggers updating the only affected dependency a5 first.
-  a5 updated to (1+(1+2)+((1+2)+3)*4+5)
-  a7 updated to ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*4+5)+7)
-  Expression equals 238 vs expected 238
-  SUCCESS!
-  Attribute a7 is ((1*(1+2)+4)*(1+(1+2)+((1+2)+3)*4+5)+7)
-
-  Now changing a1 to 9, which affects a2, a3, a4, a5, and a7.
-  Getting the value of a4 auto-triggers updating only a4's required dependencies.
-  a2 updated to (9+2)
-  a4 updated to (9*(9+2)+4)
-  Attribute a4 is (9*(9+2)+4)
-  Getting the value of a7 auto-triggers only the remaining dependencies.
-  a3 updated to ((9+2)+3)
-  a5 updated to (9+(9+2)+((9+2)+3)*4+5)
-  a7 updated to ((9*(9+2)+4)*(9+(9+2)+((9+2)+3)*4+5)+7)
-  Expression equals 8350 vs expected 8350
-  SUCCESS!
-  Attribute a7 is ((9*(9+2)+4)*(9+(9+2)+((9+2)+3)*4+5)+7)
-  ```
 Next I would like to make this into a `pip`-installable package. Please let me know if you have any experience with this and would like to help.
