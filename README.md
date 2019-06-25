@@ -38,4 +38,5 @@ The module takes care of the rest (setting values, getting values, and updating 
 
 Example code is provided based on the above dependency graph. Attributes 1, 2, etc. in the diagram correspond to `a1`, `a2`, etc. in the example code. Give it a try!
 
-Next I would like to make this into a `pip`-installable package. Please let me know if you have any experience with this and would like to help.
+# Installation
+The entire module is a single `.py` file: dataflowAttributes.py. Just download the file and put it somewhere in the python search path, such as in the same directory as your current project. Then just `import dataflowAttributes`.
