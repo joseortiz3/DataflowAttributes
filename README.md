@@ -11,9 +11,7 @@ For instance, consider a class that has attributes a1 through a7, with a depende
 
 ![Graph of Example](acyclic_dependency_example_pic.png)
 
-Changing the independent attributes 1 or 6 (`a1` and `a6` in the example code) will change the values of the attributes they affect. Changing attribute 1 (`a1`) will affect every attribute value except `a6`, and so all these values should be updated before they are used. Changing attribute 6 (`a6`) will affect only attribute 5 and 7, so we don't need to update all attribute values, just `a5` and `a7`.
-
-In other words, rather than wastefully updating every attribute when any change is made, this module automatically updates only the required attributes, and only when the value of an attribute is actually requested!
+Changing attribute 1 (`a1`) will affect every attribute value except `a6`, and so all the values should be updated before they are used. Changing attribute 6 (`a6`) will affect only attribute 5 and 7, so we don't need to update all attribute values, just `a5` and `a7`. And when are these values actually recalculated and updated? At the last possible moment.
 
 The module is very simple to use. When you are defining your class attributes, simply define their dependency structure using the module's descriptor classes. 
  
